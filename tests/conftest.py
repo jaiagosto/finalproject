@@ -50,10 +50,11 @@ def client(db_session):
 @pytest.fixture
 def test_user(db_session):
     """Create a test user"""
+    import hashlib
     user = User(
         username="testuser",
         email="test@example.com",
-        hashed_password=get_password_hash("testpass123")
+        hashed_password=hashlib.sha256("testpass123".encode()).hexdigest()
     )
     db_session.add(user)
     db_session.commit()
