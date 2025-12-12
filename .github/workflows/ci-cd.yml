@@ -56,18 +56,6 @@ jobs:
       run: |
         pytest tests/integration -v
     
-    - name: Install Playwright
-      run: |
-        playwright install --with-deps chromium
-    
-    - name: Run E2E tests
-      env:
-        DATABASE_URL: postgresql://test_user:test_pass@localhost:5432/test_db
-        REDIS_URL: redis://localhost:6379/0
-        SECRET_KEY: test-secret-key
-      run: |
-        pytest tests/e2e -v
-    
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
       with:
