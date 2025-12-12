@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator - NJIT IS601 Final Project</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Authentication Container -->
+    <div id="authContainer" class="hidden">
+        <div class="container">
+            <div class="card" style="max-width: 450px; margin: 4rem auto;">
+                <h1 class="logo" style="text-align: center; margin-bottom: 2rem;">🧮 Advanced Calculator</h1>
+                
+                <!-- Login Section -->
+                <div id="loginSection" class="section">
+                    <h2 class="card-title">Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="loginUsername">Username</label>
+                            <input type="text" id="loginUsername" name="username" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" name="password" class="form-input" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                    </form>
+                    <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+                        Don't have an account? 
+                        <a href="#" data-nav="register" style="color: var(--primary-color);">Register</a>
+                    </p>
+                </div>
+                
+                <!-- Register Section -->
+                <div id="registerSection" class="section hidden">
+                    <h2 class="card-title">Register</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label class="form-label" for="regUsername">Username</label>
+                            <input type="text" id="regUsername" name="username" class="form-input" required minlength="3">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="regEmail">Email</label>
+                            <input type="email" id="regEmail" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="regPassword">Password</label>
+                            <input type="password" id="regPassword" name="password" class="form-input" required minlength="6">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+                    </form>
+                    <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+                        Already have an account? 
+                        <a href="#" data-nav="login" style="color: var(--primary-color);">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Application Container -->
+    <div id="appContainer" class="hidden">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">🧮 Advanced Calculator</div>
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <span style="color: var(--text-secondary);">Welcome, <strong id="userDisplay"></strong></span>
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" data-nav="calculator">Calculator</button>
+                        <button class="btn btn-secondary" data-nav="dashboard">Dashboard</button>
+                        <button class="btn btn-secondary" data-nav="history">History</button>
+                        <button class="btn btn-secondary" data-nav="profile">Profile</button>
+                        <button class="btn btn-danger" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <!-- Calculator Section -->
+            <div id="calculatorSection" class="section">
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <h2 class="card-title">Calculator</h2>
+                    <form id="calculatorForm">
+                        <div class="form-group">
+                            <label class="form-label" for="operation">Operation</label>
+                            <select id="operation" name="operation" class="form-select" required>
+                                <option value="add">Addition (+)</option>
+                                <option value="subtract">Subtraction (-)</option>
+                                <option value="multiply">Multiplication (×)</option>
+                                <option value="divide">Division (÷)</option>
+                                <option value="power">Power (^)</option>
+                                <option value="modulus">Modulus (%)</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label class="form-label" for="operand1">First Number</label>
+                                <input type="number" id="operand1" name="operand1" class="form-input" step="any" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="operand2">Second Number</label>
+                                <input type="number" id="operand2" name="operand2" class="form-input" step="any" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate</button>
+                    </form>
+                    
+                    <div id="resultDisplay" class="hidden" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--bg-color); border-radius: 0.5rem; text-align: center;">
+                        <div style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">Result</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color);" id="calcResult">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="section hidden">
+                <h2 class="card-title">Analytics Dashboard</h2>
+                
+                <div class="grid grid-3">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCalcs">0</div>
+                        <div class="stat-label">Total Calculations</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <div class="stat-value" id="mostUsed">N/A</div>
+                        <div class="stat-label">Most Used Operation</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <div class="stat-value" id="avgResult">N/A</div>
+                        <div class="stat-label">Average Result</div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3 class="card-title">Operations Breakdown</h3>
+                    <div id="operationsBreakdown" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Section -->
+            <div id="historySection" class="section hidden">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                        <h2 class="card-title" style="margin: 0;">Calculation History</h2>
+                        <button class="btn btn-danger" id="clearHistoryBtn">Clear History</button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Operand 1</th>
+                                    <th>Operand 2</th>
+                                    <th>Result</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <tr><td colspan="5">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </div>
+            
+            <!-- Profile Section -->
+            <div id="profileSection" class="section hidden">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <h2 class="card-title">Profile Settings</h2>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Update Profile</h3>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label class="form-label" for="profileUsername">Username</label>
+                                <input type="text" id="profileUsername" name="username" class="form-input" required minlength="3">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" name="email" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Change Password</h3>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label class="form-label" for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" name="current_password" class="form-input" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="new_password" class="form-input" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
